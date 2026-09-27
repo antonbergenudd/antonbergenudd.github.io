@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-itunes-app" content="app-id=6799153747" />
+  <title>Wishy</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: ui-rounded, system-ui, sans-serif;
+      background: #FFFBF7;
+      color: #241C2B;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border: 1px solid #EAE1D8;
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(36, 28, 43, 0.06);
+    }
+    .emoji { font-size: 48px; line-height: 1.2; }
+    h1 { font-size: 24px; margin: 16px 0 8px; }
+    p { color: #6B6272; line-height: 1.45; }
+    .code {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      margin: 20px 0;
+      padding: 12px;
+      background: #F5EFE9;
+      border-radius: 14px;
+    }
+    a.btn {
+      display: block;
+      text-decoration: none;
+      background: #FF6F59;
+      color: #fff;
+      font-weight: 700;
+      padding: 14px 18px;
+      border-radius: 14px;
+      margin-top: 12px;
+    }
+    a.secondary { background: #1B998B; }
+    .hint { font-size: 13px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="emoji">🎁</div>
+    <h1 id="heading">Page not found</h1>
+    <p id="subtext">This link doesn't point to anything.</p>
+  </div>
+  <script>
+    // GitHub Pages serves this for any unmatched path (SPA-style catch-all),
+    // which is how a single static page can handle /invite/<any-code>.
+    (function () {
+      var parts = window.location.pathname.split('/').filter(Boolean);
+      if (parts[0] !== 'invite' || !parts[1]) return;
+
+      var code = decodeURIComponent(parts[1]).toUpperCase();
+      var appUrl = 'wishlist://invite/' + encodeURIComponent(code);
+      var storeUrl = 'https://apps.apple.com/app/id6799153747';
+      var safeCode = code.replace(/[<>&"']/g, '');
+
+      document.getElementById('card').innerHTML =
+        '<div class="emoji">🎁</div>' +
+        '<h1>You\'re invited</h1>' +
+        '<p>Open Wishy to join this wishlist, or enter the code in the app.</p>' +
+        '<div class="code">' + safeCode + '</div>' +
+        '<a class="btn" href="' + appUrl + '">Open in Wishy</a>' +
+        '<a class="btn secondary" href="' + storeUrl + '">Get the app</a>' +
+        '<p class="hint">Don\'t have the app yet? Download Wishy, then enter this code under Shared With Me.</p>';
+
+      setTimeout(function () {
+        window.location.href = appUrl;
+      }, 400);
+    })();
+  </script>
+</body>
+</html>
