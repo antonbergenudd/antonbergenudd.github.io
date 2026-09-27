@@ -62,24 +62,36 @@
   </div>
   <script>
     // GitHub Pages serves this for any unmatched path (SPA-style catch-all),
-    // which is how a single static page can handle /invite/<any-code>.
+    // which is how a single static page can handle /invite/<any-code> and
+    // /friend/<any-code>.
     (function () {
       var parts = window.location.pathname.split('/').filter(Boolean);
-      if (parts[0] !== 'invite' || !parts[1]) return;
+      var kind = parts[0];
+      if ((kind !== 'invite' && kind !== 'friend') || !parts[1]) return;
 
       var code = decodeURIComponent(parts[1]).toUpperCase();
-      var appUrl = 'wishlist://invite/' + encodeURIComponent(code);
+      var appUrl = 'wishlist://' + kind + '/' + encodeURIComponent(code);
       var storeUrl = 'https://apps.apple.com/app/id6799153747';
       var safeCode = code.replace(/[<>&"']/g, '');
 
+      var heading = kind === 'friend' ? 'You\'re invited to connect' : 'You\'re invited';
+      var body =
+        kind === 'friend'
+          ? 'Open Wishy to send a friend request, or enter the code in the app.'
+          : 'Open Wishy to join this wishlist, or enter the code in the app.';
+      var hint =
+        kind === 'friend'
+          ? 'Don\'t have the app yet? Download Wishy, then enter this code under Friends.'
+          : 'Don\'t have the app yet? Download Wishy, then enter this code under Shared With Me.';
+
       document.getElementById('card').innerHTML =
         '<div class="emoji">🎁</div>' +
-        '<h1>You\'re invited</h1>' +
-        '<p>Open Wishy to join this wishlist, or enter the code in the app.</p>' +
+        '<h1>' + heading + '</h1>' +
+        '<p>' + body + '</p>' +
         '<div class="code">' + safeCode + '</div>' +
         '<a class="btn" href="' + appUrl + '">Open in Wishy</a>' +
         '<a class="btn secondary" href="' + storeUrl + '">Get the app</a>' +
-        '<p class="hint">Don\'t have the app yet? Download Wishy, then enter this code under Shared With Me.</p>';
+        '<p class="hint">' + hint + '</p>';
 
       setTimeout(function () {
         window.location.href = appUrl;

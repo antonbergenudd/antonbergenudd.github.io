@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "XZ68HA66W8.com.antonbergenudd.wishlistapp",
-        "paths": ["/invite/*"]
+        "paths": ["/invite/*", "/friend/*"]
       }
     ]
   }
